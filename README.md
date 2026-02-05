@@ -1,22 +1,22 @@
 # Generalized Nuclei Instance Segmentation
 
-A comprehensive comparison of deep learning architectures for nuclei instance segmentation in histopathology images, with novel approaches for handling vague/ambiguous regions.
+Comparing different deep learning approaches for nuclei instance segmentation in histopathology images, with a focus on handling those tricky ambiguous regions that are hard to annotate.
 
 ## Overview
 
-This project implements and evaluates multiple state-of-the-art nuclei instance segmentation pipelines on the **NuInsSeg dataset**, focusing on:
+This project explores multiple state-of-the-art architectures on the **NuInsSeg dataset**, including:
 - Reproducing and analyzing published baseline methods
 - Investigating the impact of post-processing techniques on segmentation quality
 - Developing vague-region-aware architectures to handle ambiguous annotations
 
 ## Motivation
 
-Accurate nuclei segmentation is crucial for computational pathology and disease diagnosis. However, real-world histopathology images often contain:
-- Overlapping nuclei with unclear boundaries
-- Vague/ambiguous regions where annotation is uncertain
-- High variability across different tissue types
+Why does this matter? In real histopathology images, perfectly segmenting nuclei is harder than it sounds. You often run into:
+- Nuclei that overlap or touch each other
+- Regions where even pathologists aren't sure where one nucleus ends and another begins (the "vague regions")
+- Different tissue types with varying characteristics
 
-This project addresses these challenges through systematic evaluation of architectures and loss functions designed to handle annotation ambiguity.
+Instead of just trying one approach, this project systematically compares different architectures and techniques to see which strategies actually work best for handling these challenges.
 
 ## Implemented Architectures
 
@@ -100,9 +100,10 @@ Three complementary metrics used for comprehensive evaluation:
 - **Evaluation**: Custom implementations of AJI, PQ metrics
 
 ### Training Strategy
-- **5-fold cross-validation** for robust evaluation
+- **U-Net models**: 5-fold cross-validation for robust evaluation
+- **Mask R-CNN**: 80/20 train-test split to align with detector-style evaluation
 - Data augmentation: random crops, flips, rotations, brightness/contrast adjustment
-- Loss function: Combined binary cross-entropy and Dice loss
+- Loss function: Combined binary cross-entropy and Dice loss for U-Net; weighted binary cross-entropy for Mask R-CNN with vague region handling
 - Learning rate scheduling with step decay
 
 ### Key Techniques
@@ -207,6 +208,15 @@ Key hyperparameters can be adjusted in the notebooks:
 
 ### Related Work
 - Graham, S., et al. "HoVer-Net: Simultaneous Segmentation and Classification of Nuclei in Multi-Tissue Histology Images." Medical Image Analysis (2019).
+
+## AI Usage Disclosure
+
+This project was developed with assistance from AI tools:
+- **Boilerplate code & visualization**: Generated with AI assistance and adapted for this project
+- **Documentation**: This README was created with AI assistance for structure and clarity, then reviewed and customized for accuracy
+- **Custom implementations**: All core algorithms (loss functions, evaluation metrics, vague-region weighting strategy) were developed and validated manually
+
+All experimental results and findings represent actual outputs from the trained models.
 
 ## License
 
