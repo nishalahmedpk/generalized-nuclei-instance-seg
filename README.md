@@ -116,13 +116,15 @@ Three complementary metrics used for comprehensive evaluation:
 
 | Model | Post-Processing | Dice (%) | AJI (%) | PQ (%) |
 |-------|----------------|----------|---------|--------|
-| Shallow U-Net | None | Baseline | Baseline | Baseline |
-| Shallow U-Net | Watershed | Decreased | Marginal increase | Decreased |
-| Shallow U-Net | Watershed (w/o vague) | Decreased | Marginal increase | Decreased |
-| Mask R-CNN | Standard | Strong performance | Strong performance | Strong performance |
-| Mask R-CNN | Vague-aware | Similar | Slight improvement | Slight improvement |
+| Shallow U-Net | None | 78.8 | 50.5 | 42.7 |
+| Shallow U-Net | Watershed | 78.08 | 46.60 | 37.24 |
+| Shallow U-Net | Watershed (w/o vague) | 78.98 | 48.02 | 38.48 |
+| Mask R-CNN | Standard | 81.04 | 59.95 | 60.95 |
+| Mask R-CNN | Vague-aware | 80.82 | 59.91 | 61.01 |
 
-*Note: Over-segmentation in watershed variants negatively impacts Dice and PQ despite minor AJI gains. The vague-region-aware Mask R-CNN shows modest improvements in instance-level metrics (AJI, PQ) while maintaining comparable pixel-level accuracy (Dice).*
+**Note on DDUNet**: Results for the Dual-Decoder U-Net are not included in this summary because the exact post-processing method applied in the original implementation could not be fully reproduced. The architecture itself was implemented successfully, but without the precise post-processing pipeline, results would not be directly comparable.
+
+*Analysis: Watershed post-processing decreases both Dice and PQ metrics, confirming over-segmentation issues (AJI shows marginal gain of ~3-5% but at cost of 0.7-1% Dice drop). The vague-region-aware Mask R-CNN maintains comparable Dice (0.22% decrease) while improving PQ by 0.06% and maintaining AJI, demonstrating effective handling of ambiguous regions without harming pixel-level accuracy.*
 
 ## Setup & Usage
 
@@ -184,7 +186,6 @@ Key hyperparameters can be adjusted in the notebooks:
 - **Multi-dataset evaluation**: Test on external datasets (MoNuSeg, PanNuke, CoNIC) to assess generalization
 - **Statistical significance testing**: Apply paired t-tests and Wilcoxon signed-rank tests across folds
 - **Per-organ analysis**: Report metrics stratified by tissue type to identify organ-specific performance patterns
-- **Confidence intervals**: Calculate 95% confidence intervals for all reported metrics
 - **Ablation studies**: Systematic analysis of individual components (augmentation, loss functions, post-processing)
 
 ### Clinical Application
